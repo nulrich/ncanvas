@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>ncanvas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      canvas {
+	      border-radius: 5px;
+      }
+      
+    </style>
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+	<script type="text/javascript" charset="utf-8" src="../dist/ncanvas.js"></script>
+	<script language="javascript">
+
+		function createCanvas(elem, h, w) {
+
+			var canvas = $nc(elem,{});		
+			var height = 140;
+			var width = 280;
+
+			if (h !== undefined && w  !== undefined) {
+				height = h;
+				width = w;
+			}
+
+			canvas.size(height, width);		
+			canvas.background("#0088CC");
+
+			var i;
+			for(i=0;i<width;i=i+20) {
+				canvas.line(i,0,i,height).attribute({strokeStyle:"LightCyan", lineWidth:0.5});
+			}
+
+			for(i=0;i<height;i=i+20) {
+				canvas.line(0,i,width,i).attribute({strokeStyle:"LightCyan", lineWidth:0.5});
+			}
+
+			canvas.repaint();
+			return canvas;
+
+		}
+
+		window.onload = function(){
+
+			var i=0;
+			var style = {lineCap: 'round', strokeStyle:"White", stroke: true, fill: false, lineWidth: 5};
+
+			// Shapes Sample
+			var canvas1 = createCanvas(document.getElementById("sample1"));
+			var rect = canvas1.rect(40, 30, 60, 60).attribute(style);
+			rect.onMouseOver(function(){text = canvas1.text(45,130,"Canvas Text!").attribute({fillStyle:"White", font: "bold 20pt verdana"});canvas1.repaint();});
+			rect.onMouseOut(function(){canvas1.remove(text);canvas1.repaint()});
+
+			circle = canvas1.circle(180, 60, 30, 0, 360).attribute(style);
+			circle.onMouseOver(function(){circle.attribute({strokeStyle:"black",fill:true, fillStyle:"white"});canvas1.repaint()});
+			circle.onMouseOut(function(){circle.attribute(style);canvas1.repaint()});
+
+			canvas1.repaint();
+
+			// SVG Path Sample
+			var canvas2 = createCanvas(document.getElementById("sample2"));
+			var path = canvas2.path("M17.078,22.004l-1.758-4.129l-2.007,4.752l-7.519-3.289l0.174,3.905l9.437,4.374l10.909-5.365l-0.149-4.989L17.078,22.004z" + 
+						"M29.454,6.619L18.521,3.383l-3.006,2.671l-3.091-2.359L1.546,8.199l3.795,3.048l-3.433,5.302l10.879,4.757l2.53-5.998l2.257,5.308" +
+						"l11.393-5.942l-3.105-4.709L29.454,6.619zM15.277,14.579l-9.059-3.83l9.275-4.101l9.608,3.255L15.277,14.579z").scale(4.5,4.5).attribute({strokeStyle:"White"}).translate(15,0);
+			canvas2.repaint();
+
+			// Animation & Transition Sample
+			canvas3 = createCanvas(document.getElementById("sample3"));
+
+			circle3 = canvas3.circle(70, 70, 10, 0, 360).attribute(style).attribute({fill:true, stroke: false, fillStyle:"White", globalAlpha:0.1})
+			rect3 = canvas3.rect(50, 50, 40, 40).attribute(style).translate(130,0);
+			rect33 = canvas3.rect(30, 30, 80, 80).attribute(style).translate(130,0);
+			
+			rect33.onMouseDown(function(){
+				// Will stop animation
+				anim.isRunning=false;
+			});
+
+			anim = canvas3.anim(function(anim) {
+
+				rect3.attribute({angle:i});
+				rect33.attribute({angle:-i});
+
+				if((i+=2)>360) i=0;				  
+
+			});
+
+			doRadiusTransition(50);
+			doAlphaTransition(1);
+
+		}
+
+		// Loop Alpha Transition
+		function doAlphaTransition(alphaEnd) {
+			circle3.transition({globalAlpha:alphaEnd}, 0.01, 
+				// Call at the end of transition
+				function(){
+					doAlphaTransition(alphaEnd==1?0.1:1);
+				});
+		}
+
+		// Loop Radius Transition
+		function doRadiusTransition(radiusEnd) {
+			circle3.transition({r:radiusEnd}, 0.5, 
+				// Call at the end of transition				
+				function(){
+					doRadiusTransition(radiusEnd==45?0:45);
+				});
+		}
+
+	</script>	
+																
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">ncanvas</a>
+	      <div class="nav-collapse collapse">
+	        <ul class="nav">
+	          <li class="active"><a href="index.html">Home</a></li>
+	          <li><a href="start.html">Getting Started</a></li>
+	          <li><a href="api.html">API</a></li>
+			  <li><a href="https://github.com/nulrich">Download</a></li>
+              <li><a href="https://github.com/nulrich">Source</a></li>
+			  <li><a href="license.html">License</a></li>
+            </ul>
+	      </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="hero-unit">
+        <h1>ncanvas</h1>
+        <p>Aims to help you to manipulate HTML5 Canvas. It supports shapes, text, mouse events, SVG Path and animations. <em>It's still under development.</em></p>
+        <p><a class="btn btn-primary btn-large">Download</a></p>
+      </div>
+
+      <div class="row">
+        <div class="span4">
+          <h2>Shapes</h2>
+          <p>Draw and interact with shapes</p>
+          <canvas id="sample1"></canvas>
+          <p><i>Move your mouse over shapes</i></p>
+        </div>
+        <div class="span4">
+          <h2>SVG Path</h2>
+          <p>Create complex shapes with the SVG Path</p>
+		  <canvas id="sample2"></canvas>
+        </div>
+        <div class="span4">
+          <h2>Animations</h2>
+          <p>Create animation or property transition</p>
+          <canvas id="sample3"></canvas>
+          <p><i>Click on square to stop animation</i></p>
+        </div>
+      </div>
+
+      <hr>
+
+      <footer>
+		    <p><a href="license.html">© Nicolas Ulrich</a></p>
+	    </footer>
+
+    </div>
+
+  </body>
+</html>

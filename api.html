@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>ncanvas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+	h3 {padding-top:20px;}
+    </style>
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+
+									<script type="text/javascript" charset="utf-8" src="../src/ncanvas.js"></script>
+									<script type="text/javascript" charset="utf-8" src="../libs/requestNextAnimationFrame.js"></script>
+
+									<script language="javascript">
+
+									function createCanvas(elem, h, w) {
+
+										var canvas = $nc(elem,{});		
+										var height = 140;
+										var width = 140;
+
+									    if (h !== undefined && w  !== undefined) {
+											height = h;
+											width = w;
+										}
+
+										canvas.size(height, width);		
+										canvas.background("#0088CC");
+
+										var i;
+										for(i=0;i<width;i=i+20) {
+											canvas.line(i,0,i,height).attribute({strokeStyle:"LightCyan", lineWidth:0.5});
+										}
+
+										for(i=0;i<height;i=i+20) {
+											canvas.line(0,i,width,i).attribute({strokeStyle:"LightCyan", lineWidth:0.5});
+										}
+
+										canvas.repaint();
+										return canvas;
+
+									}
+
+									window.onload = function(){
+
+										var style = {lineCap: 'round', strokeStyle:"White", stroke: true, fill: false, lineWidth: 5};
+
+										canvas = createCanvas(document.getElementById("sample"));
+										canvas.background("LightGrey");
+										canvas.repaint();
+
+										canvas = createCanvas(document.getElementById("sample0"), 140, 600);
+										canvas.repaint();
+
+										canvas1 = createCanvas(document.getElementById("sample1"), 200, 200);		
+										layer = canvas1.layer(0, 0, 200, 200);
+										layer.rect(40, 40, 60, 60).attribute(style);
+										layer.rect(80, 80, 60, 60).attribute(style);
+										layer.translate(10,10);
+										canvas1.repaint();
+										
+										canvas = createCanvas(document.getElementById("sample2"),{});		
+										canvas.circle(70, 70, 40, 90, 270).attribute(style);
+										canvas.repaint();
+
+										canvas = createCanvas(document.getElementById("sample3"));		
+										canvas.line(40, 20, 40, 120).attribute(style);
+										canvas.line(40, 120, 100, 20).attribute(style);
+										canvas.line(100,20,100,120).attribute(style);
+										canvas.repaint();
+
+										canvas = createCanvas(document.getElementById("sample4"));
+										canvas.rect(40, 40, 60, 60).attribute(style);
+										canvas.repaint();
+
+										canvas = createCanvas(document.getElementById("sample5"));
+										canvas.path("M17.078,22.004l-1.758-4.129l-2.007,4.752l-7.519-3.289l0.174,3.905l9.437,4.374l10.909-5.365l-0.149-4.989L17.078,22.004z" + 
+													"M29.454,6.619L18.521,3.383l-3.006,2.671l-3.091-2.359L1.546,8.199l3.795,3.048l-3.433,5.302l10.879,4.757l2.53-5.998l2.257,5.308" +
+													"l11.393-5.942l-3.105-4.709L29.454,6.619zM15.277,14.579l-9.059-3.83l9.275-4.101l9.608,3.255L15.277,14.579z").scale(4.5,4.5).attribute({strokeStyle:"White"});
+										canvas.repaint();
+
+										canvas = createCanvas(document.getElementById("sample6"));
+										canvas.text(20, 60, "Hello").attribute({fillStyle:"White", font: "italic 30pt verdana"});
+										canvas.text(30, 100, "World!").attribute({fillStyle:"White", font: "bold 20pt verdana"});
+										canvas.repaint();
+					
+										sample7 = createCanvas(document.getElementById("sample7"));											
+										sample7.text(20, 80, "Hello").attribute({fillStyle:"White", font: "italic 30pt verdana"});
+
+										canvas8 = createCanvas(document.getElementById("canvas8"));	
+										canvas8.text(10, 79, "Clean Me!").attribute({fillStyle:"White", font: "bold 17pt verdana"});
+										canvas8.repaint();
+
+										canvas9 = createCanvas(document.getElementById("canvas9"));	
+										var circle = canvas9.circle(50, 70, 30, 0, 360).attribute(style);
+										var deltax = deltay = 1;																				
+										var anim = canvas9.anim(function() {
+												circle.attr.x += deltax;	
+												circle.attr.y += deltay;													
+												if(circle.attr.x>105) deltax = -deltax;
+												if(circle.attr.x<35) deltax = -deltax;
+												if(circle.attr.y>105) deltay = -deltay;
+												if(circle.attr.y<35) deltay = -deltay;
+										});
+
+										canvas10 = createCanvas(document.getElementById("canvas10"));	
+										circle10 = canvas10.circle(50, 50, 30, 0, 360).attribute(style);
+										canvas10.repaint();	
+
+										canvas11 = createCanvas(document.getElementById("canvas11"));	
+										canvas11.circle(40, 40, 30, 0, 360).attribute(style);
+										canvas11.circle(100, 100, 30, 0, 360).attribute(style);
+										canvas11.circle(100, 40, 30, 0, 360).attribute(style);
+										canvas11.circle(40, 100, 30, 0, 360).attribute(style);
+										
+										canvas11.repaint();
+
+										canvas11.forEach(function(obj) {
+											document.getElementById("output").innerHTML += "A Circle! ";
+										}, "circle");
+
+										canvas12 = createCanvas(document.getElementById("canvas12"));	
+										circle12 = canvas12.circle(50, 50, 30, 0, 360).attribute(style);
+										canvas12.repaint();
+
+										canvas13 = createCanvas(document.getElementById("canvas13"));
+										rect13 = canvas13.rect(40, 40, 60, 60).attribute(style);
+										canvas13.repaint();
+										
+										canvas14 = createCanvas(document.getElementById("canvas14"));
+										rect14 = canvas14.rect(60, 60, 20, 20).attribute(style);
+										canvas14.repaint();
+
+										canvas15 = createCanvas(document.getElementById("canvas15"));		
+										circle15 = canvas15.circle(50, 50, 30, 0, 360).attribute(style);
+										circle15.onMouseDown(function(){document.getElementById("output15").innerHTML += "Down! ";});
+										canvas15.repaint();
+
+										canvas16 = createCanvas(document.getElementById("canvas16"));		
+										circle16 = canvas16.circle(50, 50, 30, 0, 360).attribute(style);
+										circle16.onMouseOver(function(){document.getElementById("output16").innerHTML += "Over! ";});
+										canvas16.repaint();
+
+										canvas17 = createCanvas(document.getElementById("canvas17"));		
+										rect17 = canvas17.rect(25, 25, 50, 50);
+										rect17.translate(20,20);																				
+										rect17.attribute({globalAlpha:0.5})
+										canvas17.repaint();
+
+										canvas18 = createCanvas(document.getElementById("canvas18"));
+										rect18 = canvas18.rect(25, 25, 50, 50).attribute(style).attribute({fill:true, stroke: false, fillStyle:"white", globalAlpha:1})
+										rect18.translate(20,20);										
+										canvas18.repaint();
+
+									}
+
+								    </script>
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="index.html">ncanvas</a>
+	      <div class="nav-collapse collapse">
+	        <ul class="nav">
+	          <li><a href="index.html">Home</a></li>
+	          <li><a href="start.html">Getting Started</a></li>
+	          <li class="active"><a href="api.html">API</a></li>
+			  <li><a href="https://github.com/nulrich">Download</a></li>
+	          <li><a href="https://github.com/nulrich">Source</a></li>
+			  <li><a href="license.html">License</a></li>
+	        </ul>
+	      </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="span3">
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list">
+              <li class="nav-header">Canvas</li>
+              <li><a href="#Canvas.background">Canvas.background</a></li>
+              <li><a href="#Canvas.size">Canvas.size</a></li>
+              <li><a href="#Canvas.circle">Canvas.circle</a></li>
+              <li><a href="#Canvas.line">Canvas.line</a></li>
+              <li><a href="#Canvas.rect">Canvas.rect</a></li>
+              <li><a href="#Canvas.path">Canvas.path</a></li>
+              <li><a href="#Canvas.text">Canvas.text</a></li>
+              <li><a href="#Canvas.layer">Canvas.layer</a></li>                          
+              <li><a href="#Canvas.repaint">Canvas.repaint</a></li>
+              <li><a href="#Canvas.clear">Canvas.clear</a></li>
+              <li><a href="#Canvas.anim">Canvas.anim</a></li>
+              <li><a href="#Canvas.remove">Canvas.remove</a></li>
+              <li><a href="#Canvas.forEach">Canvas.forEach</a></li>
+			        <li class="nav-header">Transformation</li>
+              <li><a href="#Object.translate">Object.translate</a></li>
+              <li><a href="#Object.rotate">Object.rotate</a></li>
+			        <li><a href="#Object.scale">Object.scale</a></li>
+              <li class="nav-header">Events</li>
+              <li><a href="#Object.onMouseDown">Object.onMouseDown</a></li>
+              <li><a href="#Object.onMouseOver">Object.onMouseOver</a></li>
+			        <li class="nav-header">Attributes</li>
+              <li><a href="#Object.transition">Object.transition</a></li>
+              <li><a href="#Object.attribute">Object.attribute</a></li>
+
+            </ul>
+          </div><!--/.well -->
+        </div><!--/span-->
+        
+        <div class="span6">
+         
+			<article>
+				<header><a name="Canvas.background"><h3>Canvas.background</h3></a></header>
+				<p>Set the background color of the canvas.</p>
+				<h4>Parameters</h4>
+				<dl>
+					<dt>color</dt>
+					<dd>Color of backgound</dd>									
+				</dl>
+				<h4>Sample</h4>
+				<p><pre>canvas.background("LightGrey");</pre></p>
+				<canvas id="sample"></canvas>    
+			</article>
+
+			<article>
+				<header><a name="Canvas.size"><h3>Canvas.size</h3></a></header>
+				<p>Set the size of the canvas.</p>
+				<h4>Parameters</h4>
+				<dl>
+					<dt>w</dt>
+					<dd>Weight</dd>
+					<dt>h</dt>
+					<dd>Height</dd>								
+				</dl>
+				<h4>Sample</h4>
+				<p><pre>canvas.size(100,600);</pre></p>
+				<canvas id="sample0"></canvas>    
+			</article>	
+
+  			
+			<article>
+				<header><a name="Canvas.circle"><h3>Canvas.circle</h3></a></header>
+				<p>Create a circle.</p>
+				<h4>Parameters</h4>
+				<dl>
+					<dt>x</dt>
+					<dd>Coordinate X of center</dd>
+					<dt>y</dt>
+					<dd>Coordinate Y of center</dd>
+					<dt>r</dt>
+					<dd>Radius</dd>
+					<dt>s</dt>
+					<dd>Start angle in degree</dd>
+					<dt>e</dt>
+					<dd>End angle in degree</dd>						
+				</dl>
+				<h4>Sample</h4>
+				<p><pre>var circle = canvas.circle(70, 70, 40, 0, 360);</pre></p>
+				<canvas id="sample2"></canvas>    
+			</article>
+
+			<article>
+				<header><a name="Canvas.line"><h3>Canvas.line</h3></a></header>
+				<p>Create a line.</p>
+				<h4>Parameters</h4>
+				<dl>
+					<dt>s_x</dt>
+					<dd>Coordinate X of start point</dd>
+					<dt>s_y</dt>
+					<dd>Coordinate Y of start point</dd>
+					<dt>e_x</dt>
+					<dd>Coordinate Y of end point</dd>
+					<dt>e_y</dt>
+					<dd>Coordinate Y of end point</dd>
+				</dl>
+				<h4>Sample</h4>
+				<p><pre>var line1 = canvas.line(40, 20, 40, 120);
+var line2 = canvas.line(40, 120, 100, 20);
+var line3 = canvas.line(100, 20, 100, 120);</pre>
+				</p>
+				<canvas id="sample3"></canvas>    
+			</article>
+
+			<article>
+				<header><a name="Canvas.rect"><h3>Canvas.rect</h3></a></header>
+				<p>Create a rectangle.</p>
+				<h4>Parameters</h4>
+				<dl>
+					<dt>x</dt>
+					<dd>Coordinate X of center</dd>
+					<dt>y</dt>
+					<dd>Coordinate Y of center</dd>
+					<dt>w</dt>
+					<dd>Weight</dd>
+					<dt>h</dt>
+					<dd>Height</dd>
+				</dl>
+				<h4>Sample</h4>
+				<p><pre>var rect = canvas.rect(20, 20, 40, 40);</pre></p>
+				<canvas id="sample4"></canvas>    
+			</article>
+
+			<article>
+				<header><a name="Canvas.path"><h3>Canvas.path</h3></a></header>
+				<p>Draw a path according to <a href="http://www.w3.org/TR/SVG/paths.html">W3C SVG Path</a> specifiation.</p>
+				<p><span class="label label-warning">Attention</span> Chaining curve is not working properly.</p>
+				<h4>Parameters</h4>
+				<dl>
+					<dt>path</dt>
+					<dd>SVG Path expression</dd>			
+				</dl>
+				<h4>Sample (<a href="http://raphaeljs.com/icons/">http://raphaeljs.com/icons/</a>) </h4>
+				<p><pre>var path = canvas.path("M17.078,22.004l-1.758-4.129l-2.007,4.752l-7.519-3.289l0.174,3.905l9.437,4.374l10.909-5.365l-0.149-4.989L17.078,22.004zM29.454,6.619L18.521,3.383l-3.006,2.671l-3.091-2.359L1.546,8.199l3.795,3.048l-3.433,5.302l10.879,4.757l2.53-5.998l2.257,5.308l11.393-5.942l-3.105-4.709L29.454,6.619zM15.277,14.579l-9.059-3.83l9.275-4.101l9.608,3.255L15.277,14.579z");</pre>
+				</p>
+				<canvas id="sample5"></canvas>    
+			</article>
+
+			<article>
+				<header><a name="Canvas.text"><h3>Canvas.text</h3></a></header>
+				<p>Draw text.</p>
+				<h4>Parameters</h4>
+				<dl>
+					<dt>x</dt>
+					<dd>Coordinate X of center</dd>		
+					<dt>y</dt>
+					<dd>Coordinate Y of center</dd>
+					<dt>str</dt>
+					<dd>Text to draw</dd>
+				</dl>
+				<h4>Sample</h4>
+				<p><pre>canvas.text(20, 60, "Hello");
+canvas.text(30, 100, "World!");</pre>
+				</p>
+				<canvas id="sample6"></canvas>    
+			</article>
+
+    	<article>
+				<header><a name="Canvas.layer"><h3>Canvas.layer</h3></a></header>
+				<p>Create a layer used to do actions on a group of shapes.</p>
+					<dl>
+  					<dt>x</dt>
+  					<dd>Coordinate X of center</dd>
+  					<dt>y</dt>
+  					<dd>Coordinate Y of center</dd>
+  					<dt>w</dt>
+  					<dd>Weight</dd>
+  					<dt>h</dt>
+  					<dd>Height</dd>
+  				</dl>
+  				<h4>Sample</h4>
+  				
+				<p><pre>layer = canvas.layer(0, 0, 200, 200);
+layer.rect(40, 40, 60, 60).attribute(style);
+layer.rect(80, 80, 60, 60).attribute(style);
+layer.translate(10,10); <button onClick="layer.translate(10,10);canvas1.repaint();">Run</button></pre></p>  				
+      	<canvas id="sample1"></canvas>    
+      </article>
+
+			<article>
+				<header><a name="Canvas.repaint"><h3>Canvas.repaint</h3></a></header>
+				<p>When new objects are created, they are not display immediatly. You need to refresh the canvas with a call to repaint.</p>		
+				<h4>Sample</h4>
+				<p><pre>canvas.text(0, 40, "Hello");
+canvas.repaint(); <button onClick="sample7.repaint();">Run</button></pre>
+				</p>
+				<canvas id="sample7"></canvas>    
+			</article>
+
+			<article>
+				<header><a name="Canvas.clear"><h3>Canvas.clear</h3></a></header>
+				<p>Clean the canvas.</p>		
+				<h4>Sample</h4>
+				<p><pre>canvas.text(20, 40, "Clean Me!");
+canvas.clear(); <button onClick="canvas8.clear();">Run</button></pre>
+				   
+				</p>
+				<canvas id="canvas8"></canvas>    
+			</article>
+
+			<article>
+				<header><a name="Canvas.anim"><h3>Canvas.anim</h3></a></header>
+				<p>Run an animation. In the animation function, repaint is automatically called.</p>		
+				<h4>Sample</h4>
+				<p>
+<pre>var circle = canvas9.circle(50, 70, 30, 0, 360).attribute(style);
+var deltax = deltay = 1;						
+var anim = canvas9.anim(function() {
+  circle.attr.x += deltax;
+  circle.attr.y += deltay;
+  if(circle.attr.x>105) deltax = -deltax;
+  if(circle.attr.x<35) deltax = -deltax;
+  if(circle.attr.y>105) deltay = -deltay;
+  if(circle.attr.y<35) deltay = -deltay;
+});</pre>
+				</p>
+				<canvas id="canvas9"></canvas>    
+			</article>
+
+			<article>
+				<header><a name="Canvas.remove"><h3>Canvas.remove</h3></a></header>
+				<p>Remove an object from canvas</p>
+				<h4>Parameters</h4>
+				<dl>
+					<dt>obj</dt>
+					<dd>Object to remove</dd>	
+				</dl>
+				<h4>Sample</h4>
+				<p><pre>circle = canvas.circle(50, 50, 30, 0, 360);
+canvas.remove(circle); <button onClick="canvas10.remove(circle10); canvas10.repaint();">run</button>
+canvas.repaint();</pre>
+				</p>
+
+				<canvas id="canvas10"></canvas>    
+			</article>
+
+			<article>
+				<header><a name="Canvas.forEach"><h3>Canvas.forEach</h3></a></header>
+				<p>Execute a function for each elements contained in the canvas.</p>
+				<h4>Parameters</h4>
+				<dl>
+					<dt>fun</dt>
+					<dd>Function to execute. The obj argument is passed.</dd>	
+				</dl>
+				<h4>Sample</h4>
+				<p>
+					<pre>canvas.forEach(function(obj) {
+  document.getElementById("output").innerHTML += 'A Circle!';
+}, "circle");</pre>
+				</p>
+				<canvas id="canvas11"></canvas>    
+				<p id="output"><b>Output:</b> <p>
+
+			</article>
+
+			<h2>Transformation</h2>
+
+			<article>
+				<header><a name="Object.translate"><h3>Object.translate</h3></a></header>
+				<p>Translate the object on the canvas from its position.</p>
+				<p><span class="label label-info">Attention</span> This do not change the coordinates.</p>
+				
+				<h4>Parameters</h4>
+				<dl>
+					<dt>x</dt>
+					<dd>Value of the X translation</dd>
+					<dt>y</dt>
+					<dd>Value of the X translation</dd>			
+				</dl>
+				<h4>Sample</h4>
+        <p><pre>circle = canvas.circle(50, 50, 30, 0, 360);
+circle.translate(10,10); <button onClick="circle12.translate(10,10); canvas12.repaint();">run</button>
+canvas.repaint();</pre>
+        </p>				
+        <canvas id="canvas12"></canvas>    
+			</article>
+
+			<article>
+				<header><a name="Object.rotate"><h3>Object.rotate</h3></a></header>
+				<p>Rotate the object on the canvas.</p>
+				<p><span class="label label-info">Attention</span> This do not change the angle of the object.</p>
+				<h4>Parameters</h4>
+				<dl>
+					<dt>angle</dt>
+					<dd>Angle in degree</dd>	
+				</dl>
+				<h4>Sample</h4>
+        <p><pre>rect = canvas.rect(40, 40, 60, 60).attribute(style);
+rect.rotate(45); <button onClick="rect13.rotate(45); canvas13.repaint();">run</button>
+canvas.repaint();</pre>
+        </p>				
+        <canvas id="canvas13"></canvas>    
+			</article>
+
+			<article>
+				<header><a name="Object.scale"><h3>Object.scale</h3></a></header>
+				<p>Scale the object on the canvas.</p>
+				<h4>Parameters</h4>
+				<dl>
+					<dt>x</dt>
+					<dd>Scaling value for X coordinates</dd>
+					<dt>y</dt>
+					<dd>Scaling value for Y coordinates</dd>
+				</dl>
+				<h4>Sample</h4>
+        <p><pre>rect = canvas.rect(40, 40, 60, 60);
+rect.scale(1, 2); <button onClick="rect14.scale(2,1); canvas14.repaint();">run</button>
+canvas.repaint();</pre>
+        </p>				
+        <canvas id="canvas14"></canvas>    
+			</article>
+			
+			<h2>Events</h2>
+			
+			<article>
+				<header><a name="Object.onMouseDown"><h3>Object.onMouseDown</h3></a></header>
+				<p>Execute the function when click mouse is down.</p>
+				<h4>Parameters</h4>
+				<dl>
+					<dt>fun</dt>
+					<dd>Function to execute.</dd>	
+				</dl>
+				<h4>Sample (click on the circle)</h4>
+				<p>
+					<pre>circle = canvas.circle(50, 50, 30, 0, 360);
+circle.onMouseDown(function(){
+    document.getElementById("output").innerHTML += "Down! ";
+});	
+				   </pre>		
+				</p>
+				<canvas id="canvas15"></canvas>
+				<p id="output15"><b>Output:</b> <p>
+				
+			</article>
+
+			<article>
+				<header><a name="Object.onMouseOver"><h3>Object.onMouseOver</h3></a></header>
+				<p>Execute the function when mouse is over the object</p>
+				<h4>Parameters</h4>
+				<dl>
+					<dt>fun</dt>
+					<dd>Function to execute</dd>	
+				</dl>
+				<h4>Sample</h4>
+				<p>
+					<pre>circle = canvas.circle(50, 50, 30, 0, 360);
+circle.onMouseOver(function(){
+	document.getElementById("output").innerHTML += "Over! ";
+});</pre>		
+				</p>
+				<canvas id="canvas16"></canvas>    
+				<p id="output16"><b>Output:</b> <p>
+
+			</article>
+
+			<h2>Attributes</h2>
+
+			<article>
+				<header><a name="Object.attribute"><h3>Object.attribute</h3></a></header>
+				<p>Set attributes of the shape.</p>
+				<h4>Parameters</h4>
+				<dl>				
+				  <dt>fillStyle</dt>	
+				  <dd>Represents the color or style to use inside shapes.</dd>
+					<dt>strokeStyle</dt>
+				  <dd>Represents the color or style to use for the lines around the shapes.</dd>
+					<dt>lineWidth</dt>
+					<dd>Width of lines, in coordinate space units.</dd>
+					<dt>lineCap</dt>
+					<dd>Type of line ending (butt, round, and square)</dd>
+					<dt>lineJoin</dt>
+					<dd>Type of corners when two lines meet.</dd>
+					<dt>globalAlpha</dt>
+					<dd>Transparency of the shape (0.0 to 1.0)</dd>
+					<dt>globalCompositeOperation</dt>	
+					<dd>Composition Operation to performe</dd>					
+					<dt>shadowColor</dt>
+					<dd>Color of the shadow</dd>
+					<dt>shadowBlur</dt>
+					<dd>Level of the blurring effect</d>
+					<dt>shadowOffsetX</dt>
+					<dd>Horizontal distance that the shadow will be offset</dd>
+					<dt>shadowOffsetY</dt>
+					<dd>Vertical distance that the shadow will be offset</dd>
+					<dt>angle</dt>
+					<dd>Angle of the shape</dd>
+					<dt>stroke</dt>	
+					<dd>Shape stroke status</dd>
+					<dt>fill</dt>
+					<dd>Shape fill status</dd>
+					<dt>visible</dt>
+					<dd>Visibility of the shape</dd>
+				</dl>
+				<h4>Sample</h4>
+				<p><pre>rect = canvas.rect(25, 25, 50, 50);
+rect.attribute({globalAlpha:0.5})
+canvas.repaint();</pre></p>
+				<canvas id="canvas17"></canvas>    
+			</article>
+			
+			<article>
+				<header><a name="Object.transition"><h3>Object.transition</h3></a></header>
+				<p>Create an animation from an Attribute of the object.</p>
+				<h4>Parameters</h4>
+				<dl>
+					<dt>parameters</dt>
+					<dd>Array of <i>attribute:endValue</i></dd>
+					<dt>step</dt>
+					<dd>Value of each step.</dd>			
+				</dl>
+				<h4>Sample</h4>
+				<p><pre>rect = canvas.rect(40, 40, 60, 60);
+rect.transition({globalAlpha:0.01}, 0.01);<button onClick="rect18.transition({globalAlpha:0.01}, 0.01);">Run</button>	
+...	
+rect.transition({globalAlpha:1}, 0.01);<button onClick="rect18.transition({globalAlpha:1}, 0.01);">Run</button>		</pre></p>
+				<canvas id="canvas18"></canvas>    
+			</article>
+	      	<hr>
+
+	    </div> <!-- /container -->
+		
+      </div><!--/row-->
+
+      <footer>
+		<p><a href="license.html">© Nicolas Ulrich</a></p>
+	  </footer>
+
+ 
+
+  </body>
+</html>
