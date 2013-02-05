@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <style>
+      body {
+        margin: 10px;
+        padding: 10px;
+      }
+      #myCanvas {
+        border: 1px solid #9C9898;
+      }
+    </style>
+
+  	<script type="text/javascript" charset="utf-8" src="../dist/ncanvas.js"></script>
+
+	<script language="javascript">
+	
+	var anim, anim2, anim3;
+	var canvas;
+	var rect;
+	var path;
+	var cicle;
+	var circle2;
+	
+	function createCanvas(elem, h, w) {
+
+		var canvas = $nc(elem,{});		
+		var height = 140;
+		var width = 280;
+
+		if (h !== undefined && w  !== undefined) {
+			height = h;
+			width = w;
+		}
+
+		canvas.size(height, width);		
+		canvas.background("#0088CC");
+
+		var i;
+		for(i=0;i<width;i=i+20) {
+			canvas.line(i,0,i,height).attribute({strokeStyle:"LightCyan", lineWidth:0.5});
+		}
+
+		for(i=0;i<height;i=i+20) {
+			canvas.line(0,i,width,i).attribute({strokeStyle:"LightCyan", lineWidth:0.5});
+		}
+
+		canvas.repaint();
+		return canvas;
+
+	}
+	
+	function setHandler(cicle, text) {	  
+    cicle.onMouseOver(function(){cicle.transition({r:110},1); text.transition({globalAlpha:1}, 0.1)  });
+		cicle.onMouseOut(function(){cicle.transition({r:100},1); text.transition({globalAlpha:0.01}, 0.05) });	
+	}
+
+	
+	window.onload = function(){
+
+    var attr = {stroke:true, strokeStyle: "#FFF", fillStyle: "#FFF", lineCap: 'round', lineWidth: 4, font: "bold 15pt verdana"};
+
+		canvas = createCanvas(document.getElementById("myCanvas"),300,400);
+
+    
+    circle  = canvas.circle(200, 150, 0, 0, 0).attribute(attr);
+    circle.attribute({fillStyle:"green"});
+    circle.transition({r:100, e:150}, 6);
+    text  = canvas.text(200, 290, "Green").attribute(attr).attribute({globalAlpha:0.01});
+    setHandler(circle, text);
+
+    circle2 = canvas.circle(200, 150, 0, 150, 150).attribute(attr)
+    circle2.attribute({fillStyle:"yellow"});
+    circle2.transition({r:100, e:250}, 6);
+    text2  = canvas.text(10, 100, "Yellow").attribute(attr).attribute({globalAlpha:0.01});
+    setHandler(circle2, text2);
+    
+    circle3 = canvas.circle(200, 150, 0, 250, 250).attribute(attr);
+    circle3.attribute({fillStyle: "orange"});
+    circle3.transition({r:100, e:360}, 6);
+    text3  = canvas.text(300, 80, "Orange").attribute(attr).attribute({globalAlpha:0.01});
+    setHandler(circle3, text3);
+
+	}
+
+    </script>
+
+  </head>
+  <body>
+	<canvas id="myCanvas"></canvas>    
+	
+  </body>
+</html>
