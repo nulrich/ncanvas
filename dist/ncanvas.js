@@ -1,4 +1,4 @@
-/* ncanvas - v0.1.0 - 2013-02-06
+/* ncanvas - v0.1.0 - 2013-02-11
  * http://nulrich.github.com/ncanvas
  * Copyright (c) 2013 Nicolas Ulrich
  * Licensed MIT */
@@ -163,7 +163,7 @@ var $nc = function(canvas, attr) {
 		};
 
 		layer.rect = function(x, y, w, h) {
-			var rect = nc_rect(x, y, w, h);
+			var rect = nc_rect(x, y, w, h, this);
 			layer_objs.push(rect);
 			return rect;
 		};
@@ -271,6 +271,23 @@ var $nc = function(canvas, attr) {
 
 		obj.getCenter = function() {
 			return [0, 0];
+		};
+		
+		obj.getAbsCoord = function() {
+		
+			if(!this.attr[has]('container')){
+				return {x:this.attr.x,y:this.attr.y};
+			}
+		
+			return {
+				x:this.attr.x + this.attr.container.attr.x,
+				y:this.attr.y + this.attr.container.attr.y
+			};
+		
+		};
+		
+		obj.getRelCoord = function() {
+			return {x:this.attr.x,y:this.attr.y};
 		};
 
 		function obj_createTransition(attributes, prop, fun, offset) {
@@ -404,7 +421,7 @@ var $nc = function(canvas, attr) {
 
 	}
 
-	function nc_rect(x, y, width, height) {
+	function nc_rect(x, y, width, height, container) {
 
 		var rect = nc_obj();
 		rect.attr.type = "rect";
@@ -412,6 +429,7 @@ var $nc = function(canvas, attr) {
 		rect.attr.y = y;
 		rect.attr.width = width;
 		rect.attr.height = height;
+		rect.attr.container = container;
 
 		rect.draw = function(path) {
 
@@ -426,7 +444,7 @@ var $nc = function(canvas, attr) {
 			}
 
 			nc_context.beginPath();
-			nc_context.rect(this.attr.x, this.attr.y, this.attr.width, this.attr.height);
+			nc_context.rect(this.getAbsCoord().x, this.getAbsCoord().y, this.attr.width, this.attr.height);
 			nc_context.closePath();
 
 			if (rect.attr.stroke && !path) {
@@ -441,8 +459,8 @@ var $nc = function(canvas, attr) {
 		};
 
 		rect.getCenter = function() {
-			var t_x = rect.attr.x + rect.attr.width / 2;
-			var t_y = rect.attr.y + rect.attr.height / 2;
+			var t_x = this.getAbsCoord().x + rect.attr.width / 2;
+			var t_y = this.getAbsCoord().y + rect.attr.height / 2;
 			return [t_x, t_y];
 		};
 
