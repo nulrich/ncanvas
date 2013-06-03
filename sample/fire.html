@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <style>
+      body {
+        margin: 10px;
+        padding: 10px;
+      }
+      #myCanvas {
+        border: 1px solid #9C9898;
+      }
+    </style>
+	<script type="text/javascript" charset="utf-8" src="../dist/ncanvas.js"></script>
+
+	<script language="javascript">
+
+	window.onload = function(){
+
+
+		canvas = $nc(document.getElementById("myCanvas"),{}).size(600, 600);
+
+        var grad = canvas.createLinearGradient(0, 0, 600, 600);
+        grad.addColorStop(0, 'rgb(19, 105, 168)');
+        grad.addColorStop(0.9, 'rgb(0, 0, 0)');
+		canvas.rect(0,0,600,600).attribute({fillStyle: grad});	
+
+		var circle1 = createCircle(canvas, 100, 100, 50).transition({x:600, y:600});
+		var circle1 = createCircle(canvas, 200, 200, 100).transition({x:0, y:0});
+
+		canvas.repaint();
+
+	}
+
+	function createCircle(canvas, x,y,r) {
+		var grad = {steps: [0, 0.85, 1], colors:["rgba(19, 105, 168,0.5)","rgba(19, 105, 168,0.5)", "rgba(19, 105, 168,0.0)"]};
+		return canvas.circle(x,y,r,0,360).attribute({globalCompositeOperation:"lighter", gradient: grad});
+		
+	}
+
+    </script>
+
+  </head>
+  <body>
+	<canvas id="myCanvas"></canvas>    
+	
+  </body>
+</html>

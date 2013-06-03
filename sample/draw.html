@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <style>
+      body {
+        margin: 10px;
+        padding: 10px;
+      }
+      #myCanvas {
+        border: 1px solid #9C9898;
+      }
+    </style>
+
+	<script type="text/javascript" charset="utf-8" src="../dist/ncanvas.js"></script>
+
+	<script language="javascript">
+
+	window.onload = function(){
+
+		var canvas = $nc(document.getElementById("myCanvas"), {strokeStyle:"blue", lineCap: 'round', lineWidth: 50}).size(400, 400);
+		
+/*		canvas.rect(0,0,400,400).attribute({fillStyle: "red"}).onMouseDown(
+			function(x,y){
+				canvas.text(x, y, "H");
+				canvas.repaint();
+		});	//? no action on click, must move mouse	*/
+		canvas.text(50,50, "Hello World").rotate(90); // angle animation todo*/
+		
+		canvas.repaint();
+	}
+
+    </script>
+
+  </head>
+  <body>
+	<canvas id="myCanvas"></canvas>    
+	
+  </body>
+</html>
