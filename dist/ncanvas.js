@@ -1,4 +1,4 @@
-/* ncanvas - v0.1.0 - 2013-02-06
+/* ncanvas - v0.1.0 - 2013-06-08
  * http://nulrich.github.com/ncanvas
  * Copyright (c) 2013 Nicolas Ulrich
  * Licensed MIT */
@@ -11,7 +11,7 @@ var $nc = function(canvas, attr) {
 	var nc_objs = [];
 	var nc_canvas = canvas;
 	var nc_context = nc_canvas.getContext("2d");
-	var nc_attr = attr;
+	var nc_attr = attr || {};
 
 	// Animation
 	var idle = true;

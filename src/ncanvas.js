@@ -6,7 +6,7 @@ var $nc = function(canvas, attr) {
 	var nc_objs = [];
 	var nc_canvas = canvas;
 	var nc_context = nc_canvas.getContext("2d");
-	var nc_attr = attr;
+	var nc_attr = attr || {};
 
 	// Animation
 	var idle = true;
