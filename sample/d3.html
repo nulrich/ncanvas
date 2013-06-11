@@ -1,3 +1,8 @@
+<!--
+Original idea from:
+https://gist.github.com/mbostock/1276463/raw/843834014228b223b7b353e54e6807393924ee73/index.html
+-->
+
 <!DOCTYPE HTML>
 <html>
   <head>
@@ -10,76 +15,106 @@
         border: 1px solid #9C9898;
       }
     </style>
+	
+    <script type="text/javascript" src="file://localhost/Users/nicolas/Dev/ncanvas/sample/d3.js"></script>	
 	<script type="text/javascript" charset="utf-8" src="../dist/ncanvas.js"></script>
 
-    <script type="text/javascript" src="http://mbostock.github.com/d3/d3.js?2.3.2"></script>
 	
 	<script language="javascript">
 	
-	d3.ns.prefix.custom = "http://github.com/mbostock/d3/examples/dom";
-	
-	var anim;
-	var ncanvas;
-	var rect;
-	window.onload = function(){
+	window.onload = function() {
 
-		ncanvas = $nc.select(document.getElementById("myCanvas"), document);		
-		ncanvas.size(400, 400).background("#cfcfcf").style({strokeStyle:"yellow", fillStyle: "yellow"});
 
-			
-		// Register the "custom" namespace prefix for our custom elements.
-		d3.ns.prefix.ncanvas = "http://ncanvas";
+	function createCanvas(elem, h, w) {
 
-		var w = 960,
-			h = 500;
+		var canvas = $nc(elem, {});
+		var height = 140;
+		var width = 280;
 
-		var sketch = d3.select("body").append("ncanvas:d3")
-			.attr("width", w)
-			.attr("height", h)
-			.call(custom);
+		if (h !== undefined && w !== undefined) {
+			height = h;
+			width = w;
+		}
 
-		// On each mouse move, create a circle that increases in size and fades away.
-		  sketch.append("ncanvas:rect")
-			  .attr("x", 10)
-			  .attr("y", 10)
-			  .attr("radius", 10)
-			  .attr("strokeStyle", "red");
+		canvas.size(height, width);
+		canvas.background("#0088CC");
+
+		var i;
+		for (i = 0; i < width; i = i + 20) {
+			canvas.line(i, 0, i, height)
+				.attribute({
+				strokeStyle: "LightCyan",
+				lineWidth: 0.5
+			});
+		}
+
+		for (i = 0; i < height; i = i + 20) {
+			canvas.line(0, i, width, i)
+				.attribute({
+				strokeStyle: "LightCyan",
+				lineWidth: 0.5
+			});
+		}
+
+		canvas.repaint();
+		return canvas;
 
 	}
 
-	function custom(selection) {
-	  
-	  selection.each(function() {
-	  
-		var root = this;
+	var myCanvas = createCanvas(document.getElementById("myCanvas"), 300, 400);
 
-		ncanvas.anim({
-				tick: function(){
-					for (var child = root.firstChild; child; child = child.nextSibling) draw(child);
-				},
-				isRunning: true
+	var attr = {
+		stroke: true,
+		strokeStyle: "#FFF",
+		fillStyle: "#FFF",
+		lineCap: 'round',
+		lineWidth: 4,
+		font: "bold 15pt verdana"
+	};
+
+	var pie = d3.layout.pie()
+		.value(function(d) {
+			return d.value;
+		})
+
+	d3.tsv("data.tsv", function(data) {
+
+		pie(data)
+			.forEach(function(d) {
+
+			var s = 180 * (d.startAngle) / 3.14;
+			var e = 180 * (d.endAngle) / 3.14;
+			var circle = myCanvas.circle(150, 150, 0, s, s)
+				.attribute(attr)
+				.attribute({fillStyle: d.data.color})
+				.transition({r: 100, e: e}, 6);
+				
+			circle.onMouseOver(function() {
+				circle.transition({r: 110}, 1);
+			});
+			
+			circle.onMouseOut(function() {
+				circle.transition({r: 100}, 1);
+			});
+
 		});
 
-		function draw(element) {
-		  switch (element.tagName) {
-			case "rect": {
-				ncanvas.fillRect({x:200, y:200, width:50, height: 50}).style({fillStyle:"blue", lineWidth:5, strokeStyle: "red"});
-			  break;
-			}
-		  }
-		}
-	  });
-	};
-	
+	});
+
+	myCanvas.repaint();
+
+}
+
+
+function custom(arcs) {
+	console.log(selection);
+};
+
 	
     </script>
 
   </head>
   <body>
-	<canvas id="myCanvas"></canvas>    
-	
-		<button value="Animate" onClick="anim.isRunning=!anim.isRunning">Pause</button>
-		<button value="Add" onClick="addRect();">Add</button>
-
+	<canvas id="myCanvas"></canvas> 
   </body>
 </html>
