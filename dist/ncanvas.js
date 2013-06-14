@@ -1,4 +1,4 @@
-/* ncanvas - v0.1.0 - 2013-06-08
+/* ncanvas - v0.1.0 - 2013-06-15
  * http://nulrich.github.com/ncanvas
  * Copyright (c) 2013 Nicolas Ulrich
  * Licensed MIT */
@@ -476,6 +476,10 @@ var $nc = function(canvas, attr) {
 
 			nc_context.restore();
 
+		};
+
+		text.width = function() {
+			return nc_context.measureText(text.attr.txt).width;			
 		};
 
 		return text;
@@ -1003,6 +1007,10 @@ var $nc = function(canvas, attr) {
 				fun(nc_objs[i]);
 			}
 		}
+	};
+
+	nc.textWidth = function(txt) {
+		return nc_context.measureText(txt).width;			
 	};
 
 	nc.createRadialGradient = function(startX, startY, initialSize, endX, endY, endSize) {

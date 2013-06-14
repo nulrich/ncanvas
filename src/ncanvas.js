@@ -473,6 +473,10 @@ var $nc = function(canvas, attr) {
 
 		};
 
+		text.width = function() {
+			return nc_context.measureText(text.attr.txt).width;			
+		};
+
 		return text;
 
 	}
@@ -998,6 +1002,10 @@ var $nc = function(canvas, attr) {
 				fun(nc_objs[i]);
 			}
 		}
+	};
+
+	nc.textWidth = function(txt) {
+		return nc_context.measureText(txt).width;			
 	};
 
 	nc.createRadialGradient = function(startX, startY, initialSize, endX, endY, endSize) {
