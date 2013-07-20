@@ -1,4 +1,4 @@
-/* ncanvas - v0.1.0 - 2013-06-15
+/* ncanvas - v0.1.0 - 2013-06-26
  * http://nulrich.github.com/ncanvas
  * Copyright (c) 2013 Nicolas Ulrich
  * Licensed MIT */
@@ -1019,6 +1019,17 @@ var $nc = function(canvas, attr) {
 
 	nc.createLinearGradient = function(X, Y, W, H) {
 		return nc_context.createLinearGradient(X, Y, W, H);
+	};
+	
+	nc.onKeydown = function(fun) {
+		
+		var cb = function(event) {
+			event.stopPropagation();
+			fun.apply(this);
+		}.bind(this);
+		
+		window.addEventListener("keydown", cb, false);		
+		return this;
 	};
 
 	return nc;

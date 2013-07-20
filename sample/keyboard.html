@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <style>
+      body {
+        margin: 10px;
+        padding: 10px;
+      }
+      #myCanvas {
+        border: 1px solid #9C9898;
+      }
+    </style>
+
+  	<script type="text/javascript" charset="utf-8" src="../dist/ncanvas.js"></script>
+
+	<script language="javascript">
+	
+	var canvas;
+	var cicle;
+	
+	function createCanvas(elem, h, w) {
+
+		var canvas = $nc(elem,{});		
+		var height = 140;
+		var width = 280;
+
+		if (h !== undefined && w  !== undefined) {
+			height = h;
+			width = w;
+		}
+
+		canvas.size(height, width);		
+		canvas.background("#0088CC");
+
+		var i;
+		for(i=0;i<width;i=i+20) {
+			canvas.line(i,0,i,height).attribute({strokeStyle:"LightCyan", lineWidth:0.5});
+		}
+
+		for(i=0;i<height;i=i+20) {
+			canvas.line(0,i,width,i).attribute({strokeStyle:"LightCyan", lineWidth:0.5});
+		}
+
+		canvas.repaint();
+		return canvas;
+
+	}
+
+	window.onload = function(){
+
+    var attr = {stroke:true, strokeStyle: "#FFF", fillStyle: "#FFF", lineCap: 'round', lineWidth: 4, font: "bold 15pt verdana"};
+
+	canvas = createCanvas(document.getElementById("myCanvas"),300,400);
+
+    circle  = canvas.circle(200, 150, 50, 0, 360).attribute(attr);
+    circle.attribute({fillStyle:"green"});
+   
+	canvas.onKeydown(function(){
+		alert();
+	});
+
+
+	
+	canvas.repaint();
+	
+
+	
+	}
+
+    </script>
+
+  </head>
+  <body>
+	<canvas id="myCanvas"></canvas>    
+	
+  </body>
+</html>

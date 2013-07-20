@@ -1015,6 +1015,17 @@ var $nc = function(canvas, attr) {
 	nc.createLinearGradient = function(X, Y, W, H) {
 		return nc_context.createLinearGradient(X, Y, W, H);
 	};
+	
+	nc.onKeydown = function(fun) {
+		
+		var cb = function(event) {
+			event.stopPropagation();
+			fun.apply(this);
+		}.bind(this);
+		
+		window.addEventListener("keydown", cb, false);		
+		return this;
+	};
 
 	return nc;
 
